@@ -1,11 +1,14 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
-import React, { useState } from "react";
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import React, { useContext, useState } from "react";
 
 import Button from "../UI/Button";
 import { colors } from "../../constants/theme";
 import Input from "./Input";
+import { Auth } from "../../utils/Auth";
+import { AuthContext } from "../../store/auth-context";
 
 export default function Form({ isLogin }) {
+  const authCtx = useContext(AuthContext);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userConfirmEmail, setUserConfirmEmail] = useState("");
@@ -34,7 +37,7 @@ export default function Form({ isLogin }) {
     }
   }
 
-  function loginHandler() {
+  async function loginHandler() {
     setCredInvalid({
       email: false,
       confirmEmail: false,
@@ -66,6 +69,15 @@ export default function Form({ isLogin }) {
       });
       return;
     }
+
+    if (isLogin) {
+      const token = await Auth("login", userEmail, userPassword);
+      authCtx.authenticate(token);
+    } else {
+      const token = await Auth("signup", userEmail, userPassword);
+      authCtx.authenticate(token);
+    }
+    <ActivityIndicator />;
   }
 
   return (

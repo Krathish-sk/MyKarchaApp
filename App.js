@@ -1,4 +1,5 @@
-import { StatusBar, View } from "react-native";
+import { StatusBar, View, Text } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -10,15 +11,26 @@ import {
   Labrada_700Bold,
   Labrada_800ExtraBold,
 } from "@expo-google-fonts/labrada";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { colors, fontsize } from "./constants/theme";
+import {
+  TransactionScreen,
+  CategoriesScreen,
+} from "./screens/AuthenticatedScreens";
 import { Login, Signup } from "./screens/UnAuthenticatedScreens";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function AuthenticatedScreens() {
-  return <BottomTabs.Navigator></BottomTabs.Navigator>;
+  return (
+    <BottomTabs.Navigator>
+      <BottomTabs.Screen name="Transactions" component={TransactionScreen} />
+      <BottomTabs.Screen name="Category" component={CategoriesScreen} />
+    </BottomTabs.Navigator>
+  );
 }
 
 function UnAuthenticatedScreens() {
@@ -48,11 +60,42 @@ function UnAuthenticatedScreens() {
 }
 
 function Navigation() {
+  const authCtx = useContext(AuthContext);
   return (
     <NavigationContainer>
-      <UnAuthenticatedScreens />
+      {authCtx.isAuthenticated ? (
+        <AuthenticatedScreens />
+      ) : (
+        <UnAuthenticatedScreens />
+      )}
     </NavigationContainer>
   );
+}
+
+function Root() {
+  const authCtx = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchStoredToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+      setIsLoading(false);
+    }
+    fetchStoredToken();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text> Loading ...</Text>
+      </View>
+    );
+  }
+  return <Navigation />;
 }
 
 export default function App() {
@@ -76,9 +119,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <AuthContextProvider>
       <StatusBar barStyle={"light-content"} />
-      <Navigation />
-    </>
+      <Root />
+    </AuthContextProvider>
   );
 }
