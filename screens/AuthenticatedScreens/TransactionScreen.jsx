@@ -1,10 +1,5 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 
 export default function TransactionScreen() {
-  return (
-    <View>
-      <Text>TransactionScreen</Text>
-    </View>
-  );
+  return <View></View>;
 }

@@ -77,7 +77,6 @@ export default function Form({ isLogin }) {
       const token = await Auth("signup", userEmail, userPassword);
       authCtx.authenticate(token);
     }
-    <ActivityIndicator />;
   }
 
   return (

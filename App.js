@@ -1,8 +1,6 @@
 import { StatusBar, View, Text } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   useFonts,
   Labrada_400Regular,
@@ -13,51 +11,11 @@ import {
 } from "@expo-google-fonts/labrada";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { colors, fontsize } from "./constants/theme";
-import {
-  TransactionScreen,
-  CategoriesScreen,
-} from "./screens/AuthenticatedScreens";
-import { Login, Signup } from "./screens/UnAuthenticatedScreens";
+import { colors } from "./constants/theme";
+
+import UnAuthenticatedScreens from "./navigations/UnAuthenticatedScreens";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
-
-const Stack = createNativeStackNavigator();
-const BottomTabs = createBottomTabNavigator();
-
-function AuthenticatedScreens() {
-  return (
-    <BottomTabs.Navigator>
-      <BottomTabs.Screen name="Transactions" component={TransactionScreen} />
-      <BottomTabs.Screen name="Category" component={CategoriesScreen} />
-    </BottomTabs.Navigator>
-  );
-}
-
-function UnAuthenticatedScreens() {
-  return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        headerTintColor: colors.primaryWhiteHex,
-        headerStyle: { backgroundColor: colors.primaryBlack },
-        contentStyle: { backgroundColor: colors.secondaryDarkGreyHex },
-        headerTitleAlign: "center",
-        headerTitleStyle: { fontFamily: "bold", fontSize: fontsize.size_24 },
-      }}
-    >
-      <Stack.Screen
-        name="Signup"
-        component={Signup}
-        options={{ title: "Sign - Up" }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ title: "Log - In" }}
-      />
-    </Stack.Navigator>
-  );
-}
+import AuthenticatedScreens from "./navigations/AuthenticatedScreens";
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
