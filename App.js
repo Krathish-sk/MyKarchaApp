@@ -36,9 +36,13 @@ function UnAuthenticatedScreens() {
       <Stack.Screen
         name="Signup"
         component={Signup}
-        options={{ title: "Sign up" }}
+        options={{ title: "Sign - Up" }}
       />
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Log - In" }}
+      />
     </Stack.Navigator>
   );
 }
