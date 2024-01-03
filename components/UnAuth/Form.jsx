@@ -54,7 +54,7 @@ export default function Form({ isLogin }) {
 
     if (
       !emailIsValid ||
-      passwordIsValid ||
+      !passwordIsValid ||
       (!isLogin && (!emailAreEqual || !passwordAreEqual))
     ) {
       Alert.alert("Invalid input, Please check your credentials !!");
@@ -108,7 +108,7 @@ export default function Form({ isLogin }) {
       <View style={styles.button}>
         <Button
           onPress={loginHandler}
-          text={"Login"}
+          text={isLogin ? "Login" : "Sign Up"}
           bgcolor={colors.primary}
           color={colors.primaryBlackHex}
         />

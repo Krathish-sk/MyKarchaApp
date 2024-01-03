@@ -1,12 +1,7 @@
-import { View, Text } from "react-native";
 import React from "react";
 
-import Form from "../../components/UnAuth/Form";
+import AuthContent from "../../components/UnAuth/AuthContent";
 
 export default function Signup() {
-  return (
-    <View>
-      <Form />
-    </View>
-  );
+  return <AuthContent isLogin={false} />;
 }
