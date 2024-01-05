@@ -1,4 +1,4 @@
-import { StatusBar, View, Text } from "react-native";
+import { StatusBar, View, Text, ActivityIndicator } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -48,8 +48,15 @@ function Root() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text> Loading ...</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: colors.secondaryBlack,
+        }}
+      >
+        <ActivityIndicator />
       </View>
     );
   }

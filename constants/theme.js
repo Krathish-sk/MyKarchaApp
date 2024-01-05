@@ -9,6 +9,8 @@ export const colors = {
   primaryBlackHex: "#0C0F14",
   primaryDarkGreyHex: "#141921",
   secondaryDarkGreyHex: "#21262E",
+  lightRed: "#FF474C",
+  primaryHeadingText: "#9EC8B9",
 };
 
 export const fontsize = {
