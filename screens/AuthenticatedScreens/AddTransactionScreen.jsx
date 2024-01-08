@@ -16,6 +16,7 @@ import { colors } from "../../constants/theme";
 import DateModal from "../../components/UI/DateModal";
 import Button from "../../components/UI/Button";
 import { ExpensesContext } from "../../store/expense-context";
+import { addTransaction } from "../../utils/transactions";
 
 const names = [
   { label: "Groceries", value: "Groceries" },
@@ -34,16 +35,17 @@ export default function AddTransactionScreen({ closeModal }) {
   const [isFocus, setIsFocus] = useState(false);
   const [isDateOpen, setIsDateOpen] = useState(false);
 
-  function submitPressHandler() {
+  async function submitPressHandler() {
     if (userTransacData.amount === "" || userTransacData.desc === "") {
       Alert.alert("Validation Error", "Please enter all input fields");
       return;
     } else {
+      const res = await addTransaction(userTransacData);
       expenseCtx.addCatListItem({
         amount: userTransacData.amount,
         date: userTransacData.date,
         desc: userTransacData.desc,
-        name: userTransacData.catName,
+        catName: userTransacData.catName,
       });
       closeModal();
     }
@@ -150,15 +152,14 @@ export default function AddTransactionScreen({ closeModal }) {
             color={colors.primaryWhiteHex}
             onPress={submitPressHandler}
           />
+          <AntDesign
+            name="closecircle"
+            color={colors.primary}
+            size={26}
+            onPress={closeModal}
+          />
         </View>
       </View>
-      <AntDesign
-        style={{ width: "10%", marginTop: 26 }}
-        name="closecircle"
-        color={colors.primary}
-        size={26}
-        onPress={closeModal}
-      />
     </View>
   );
 }
@@ -166,32 +167,30 @@ export default function AddTransactionScreen({ closeModal }) {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+    alignItems: "center",
     marginTop: 200,
-    backgroundColor: colors.secondaryLightGreyHex,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    backgroundColor: colors.secondaryBlack,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   subContainer: {
     alignItems: "center",
-    width: "90%",
+    justifyContent: "center",
+    width: "80%",
   },
   formContainer: {
-    width: "80%",
+    width: "100%",
     backgroundColor: colors.primaryLightGreyHex,
     borderRadius: 8,
     alignItems: "center",
     gap: 4,
     padding: 20,
-    marginLeft: 15,
   },
   headingText: {
     fontFamily: "semiBold",
     fontSize: 24,
     margin: 18,
-    marginLeft: 25,
-    color: colors.primaryBlackHex,
+    color: colors.primaryWhiteHex,
   },
   dropdown: {
     width: 200,
@@ -241,7 +240,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   submitButtonContainer: {
-    margin: 10,
-    marginLeft: 25,
+    width: "100%",
+    margin: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
   },
 });

@@ -13,6 +13,7 @@ import CatItems from "../../components/Auth/CatItems";
 import ExpenseButton from "../../components/UI/ExpenseButton";
 import { colors } from "../../constants/theme";
 import { ExpensesContext } from "../../store/expense-context";
+import { getAllTransactions } from "../../utils/transactions";
 import AddTransactionScreen from "./AddTransactionScreen";
 
 export default function TransactionScreen() {
@@ -23,6 +24,16 @@ export default function TransactionScreen() {
   function addExpenseHandler() {
     setIsModalVisible((prev) => !prev);
   }
+
+  useEffect(() => {
+    async function fetchAllTransactions() {
+      const response = await getAllTransactions();
+      for (let i = 0; i < response.length; i++) {
+        expenseCtx.addCatListItem(response[i]);
+      }
+    }
+    fetchAllTransactions();
+  }, []);
 
   return (
     <View style={[styles.mainContainer, { marginBottom: bottomTabBarHeight }]}>

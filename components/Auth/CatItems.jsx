@@ -44,7 +44,6 @@ export default function CatItems({ item }) {
   }
 
   function CatWithTransactions({ item }) {
-    console.log(item);
     const iconName =
       item.name === "Food"
         ? "food"
@@ -63,7 +62,7 @@ export default function CatItems({ item }) {
           </View>
           <View style={styles.itemContentInfo}>
             <View>
-              <Text style={styles.itemText}>{item.name}</Text>
+              <Text style={styles.itemText}>{item.catName}</Text>
               <Text style={styles.itemAmount}>{item.amount}</Text>
             </View>
             <View>
@@ -89,7 +88,7 @@ export default function CatItems({ item }) {
         <FlatList
           style={{ marginTop: 10 }}
           data={item}
-          keyExtractor={(item) => item.name + Math.random()}
+          keyExtractor={(item) => item.id}
           renderItem={(item) => <CatWithTransactions item={item.item} />}
         />
       ) : (

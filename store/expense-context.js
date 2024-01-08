@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 
 export const ExpensesContext = createContext({
   catListItems: [],
-  addCatListItem: ({ name, amount, desc, date }) => {},
+  addCatListItem: ({ catName, amount, desc, date, id }) => {},
   updateCatListItem: (id) => {},
   removeCatListItem: (id) => {},
 });
@@ -12,8 +12,10 @@ export const ExpensesContext = createContext({
 function expenseReducer(state, action) {
   switch (action.type) {
     case "ADD": {
-      console.log("Amount from ctx", action.payload.amount);
       return [action.payload, ...state];
+    }
+    case "DELETE": {
+      return state.filter((expense) => expense.id !== action.payload.id);
     }
   }
 }
